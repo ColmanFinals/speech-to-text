@@ -8,7 +8,7 @@ import os
 import re
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/home/st111/uploads/'
+UPLOAD_FOLDER = './'
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -16,9 +16,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 processor = WhisperProcessor.from_pretrained("openai/whisper-small.en")
 model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small.en")
 
+
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
@@ -42,7 +44,6 @@ def transcribe_audio():
             resampler = T.Resample(orig_freq=sr, new_freq=16000)
             audio_input = resampler(audio_input.squeeze())
         audio_input = audio_input.squeeze().squeeze()
-        print(audio_input.shape)
         input_features = processor(audio_input, sampling_rate=16000, return_tensors="pt").input_features
 
         # Generate token ids and decode to text
@@ -62,5 +63,6 @@ def transcribe_audio():
     else:
         return jsonify({'error': 'File type not allowed'}), 400
 
+
 if __name__ == '__main__':
-    app.run(debug=True,port=4000,host='0.0.0.0')
+    app.run(debug=True, port=4000, host='0.0.0.0')

@@ -1,0 +1,5 @@
+flask
+transformers
+werkzeug
+torch
+torchaudio
