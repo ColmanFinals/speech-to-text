@@ -47,6 +47,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ghcr.io/colman-finals/speech-to-text:${{ steps.datetime.outputs.date }}
+        tags: ghcr.io/speech-to-text-guidetube:${{ steps.datetime.outputs.date }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
