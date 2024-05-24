@@ -3,3 +3,5 @@ transformers
 werkzeug
 torch
 torchaudio
+soundfile
+google-generativeai
