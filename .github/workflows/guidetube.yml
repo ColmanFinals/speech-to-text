@@ -19,10 +19,6 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }} 
 
-    - name: Get current datetime
-      id: datetime
-      run: echo "::set-output name=date::$(date +'%Y%m%d-%H%M%S')"
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
@@ -47,6 +43,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ghcr.io/speech-to-text-guidetube:${{ steps.datetime.outputs.date }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
