@@ -11,7 +11,7 @@ import re
 
 app = Flask(__name__)
 MODEL_LANGUAGE = os.environ["MODEL_LANGUAGE"]
-UPLOAD_FOLDER = './'
+UPLOAD_FOLDER = os.environ["UPLOAD_FOLDER"]
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 SUPPORTED_COMMANDS = ["play", "pause", "stop", "next", "previous", "mute", "unmute", "volume up",
@@ -47,6 +47,22 @@ def save_file(file: FileStorage) -> str:
     return filepath
 
 
+def del_file(filename: str) -> bool:
+    try:
+        # Construct the filepath using the secure filename
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(filename))
+
+        # Check if the file exists
+        if os.path.exists(filepath):
+            # Remove the file
+            os.remove(filepath)
+            return True
+        else:
+            print("File not found.")
+            return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 """
 Loads the audio file, converts stereo to mono if necessary, resamples to 16000 Hz if needed, 
 and processes it with the Whisper processor.
@@ -113,6 +129,7 @@ def transcribe_audio():
             if gemini_recognized_action != "false":
                 found_commands.append(gemini_recognized_action)
         print(transcription)
+        del_file(file)
         return jsonify({'transcription': transcription, 'commands': found_commands})
     else:
         return jsonify({'error': 'File type not allowed'}), 400

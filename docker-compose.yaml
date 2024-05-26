@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  whisper-en-1:
+    image: my-image:latest
+    ports:
+      - "5000:4000"
+    environment:
+      MODEL_LANGUAGE: en
+      GOOGLE_API_KEY: key
+      UPLOAD_FOLDER: /app/uploads
+    volumes:
+      - ./uploads1:/app/uploads
+
+  whisper-en-2:
+    image: my-image:latest
+    ports:
+      - "5001:4000"
+    environment:
+      MODEL_LANGUAGE: en
+      GOOGLE_API_KEY: key
+      UPLOAD_FOLDER: /app/uploads
+    volumes:
+      - ./uploads2:/app/uploads
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "4000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - whisper-en-1
+      - whisper-en-2
+
