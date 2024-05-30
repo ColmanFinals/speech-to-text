@@ -20,8 +20,6 @@ SUPPORTED_COMMANDS = ["play", "pause", "stop", "next", "previous", "mute", "unmu
 
 def init_model_and_processor():
     models_dict = {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}
-    # processor = WhisperProcessor.from_pretrained("openai/whisper-small.en")
-    # model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small.en")
     model_name = models_dict[MODEL_LANGUAGE]
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
@@ -111,7 +109,8 @@ def find_commands(sanitized_transcription):
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
-    model, processor = init_model_and_processor()
+    model = app.config['MODEL']
+    processor = app.config['PROCESSOR']
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     file = request.files['file']
@@ -136,4 +135,7 @@ def transcribe_audio():
 
 
 if __name__ == '__main__':
+    app_model, app_processor = init_model_and_processor()
+    app.config['MODEL'] = app_model
+    app.config['PROCESSOR'] = app_processor
     app.run(debug=True, port=4000, host='0.0.0.0')
