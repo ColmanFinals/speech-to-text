@@ -31,7 +31,7 @@ services:
       GOOGLE_API_KEY: key
       UPLOAD_FOLDER: /app/uploads
     volumes:
-      - ./uploads2:/app/uploads
+      - ./uploads3:/app/uploads
   whisper-he-2:
     image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
@@ -41,7 +41,7 @@ services:
       GOOGLE_API_KEY: key
       UPLOAD_FOLDER: /app/uploads
     volumes:
-      - ./uploads2:/app/uploads
+      - ./uploads4:/app/uploads
   nginx:
     image: nginx:latest
     ports:
