@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   whisper-en-1:
-    image: my-image:latest
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
       - "5000:4000"
     environment:
@@ -13,7 +13,7 @@ services:
       - ./uploads1:/app/uploads
 
   whisper-en-2:
-    image: my-image:latest
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
       - "5001:4000"
     environment:
@@ -22,7 +22,26 @@ services:
       UPLOAD_FOLDER: /app/uploads
     volumes:
       - ./uploads2:/app/uploads
-
+  whisper-he-1:
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+    ports:
+      - "5002:4000"
+    environment:
+      MODEL_LANGUAGE: he
+      GOOGLE_API_KEY: key
+      UPLOAD_FOLDER: /app/uploads
+    volumes:
+      - ./uploads2:/app/uploads
+  whisper-he-2:
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+    ports:
+      - "5003:4000"
+    environment:
+      MODEL_LANGUAGE: he
+      GOOGLE_API_KEY: key
+      UPLOAD_FOLDER: /app/uploads
+    volumes:
+      - ./uploads2:/app/uploads
   nginx:
     image: nginx:latest
     ports:
