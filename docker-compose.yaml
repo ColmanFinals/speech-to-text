@@ -22,26 +22,26 @@ services:
       UPLOAD_FOLDER: /app/uploads
     volumes:
       - ./uploads2:/app/uploads
-  whisper-he-1:
-    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
-    ports:
-      - "5002:4000"
-    environment:
-      MODEL_LANGUAGE: he
-      GOOGLE_API_KEY: key
-      UPLOAD_FOLDER: /app/uploads
-    volumes:
-      - ./uploads3:/app/uploads
-  whisper-he-2:
-    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
-    ports:
-      - "5003:4000"
-    environment:
-      MODEL_LANGUAGE: he
-      GOOGLE_API_KEY: key
-      UPLOAD_FOLDER: /app/uploads
-    volumes:
-      - ./uploads4:/app/uploads
+  # whisper-he-1:
+  #   image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+  #   ports:
+  #     - "5002:4000"
+  #   environment:
+  #     MODEL_LANGUAGE: he
+  #     GOOGLE_API_KEY: key
+  #     UPLOAD_FOLDER: /app/uploads
+  #   volumes:
+  #     - ./uploads3:/app/uploads
+  # whisper-he-2:
+  #   image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+  #   ports:
+  #     - "5003:4000"
+  #   environment:
+  #     MODEL_LANGUAGE: he
+  #     GOOGLE_API_KEY: key
+  #     UPLOAD_FOLDER: /app/uploads
+  #   volumes:
+  #     - ./uploads4:/app/uploads
   nginx:
     image: nginx:latest
     ports:
@@ -51,4 +51,5 @@ services:
     depends_on:
       - whisper-en-1
       - whisper-en-2
-
+#      - whisper-he-1
+#      - whisper-he-2
