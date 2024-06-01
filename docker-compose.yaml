@@ -9,6 +9,9 @@ services:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY: key
       UPLOAD_FOLDER: /app/uploads
+      MODELS_DICT: >
+        {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}
+
     volumes:
       - ./uploads1:/app/uploads
 
@@ -20,6 +23,8 @@ services:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY: key
       UPLOAD_FOLDER: /app/uploads
+      MODELS_DICT: >
+        {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}      
     volumes:
       - ./uploads2:/app/uploads
   # whisper-he-1:
@@ -30,6 +35,8 @@ services:
   #     MODEL_LANGUAGE: he
   #     GOOGLE_API_KEY: key
   #     UPLOAD_FOLDER: /app/uploads
+  #    MODELS_DICT: >
+  #      {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}  
   #   volumes:
   #     - ./uploads3:/app/uploads
   # whisper-he-2:
@@ -40,6 +47,8 @@ services:
   #     MODEL_LANGUAGE: he
   #     GOOGLE_API_KEY: key
   #     UPLOAD_FOLDER: /app/uploads
+  #    MODELS_DICT: >
+  #      {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}    
   #   volumes:
   #     - ./uploads4:/app/uploads
   nginx:
