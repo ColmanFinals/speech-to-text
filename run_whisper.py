@@ -135,6 +135,7 @@ def transcribe_audio():
         del_file(file)
         return jsonify({'transcription': transcription, 'commands': found_commands})
     else:
+        del_file(file)
         return jsonify({'error': 'File type not allowed'}), 400
 
 
