@@ -1,3 +1,5 @@
+import json
+
 import gemini_helper
 from flask import Flask, request, jsonify
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
@@ -16,11 +18,11 @@ ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 SUPPORTED_COMMANDS = ["play", "pause", "stop", "next", "previous", "mute", "unmute", "volume up",
                       "volume down", "fullscreen", "exit fullscreen", "loop", "exit"]
+MODELS_DICT = json.loads(os.environ["MODELS_DICT"])
 
 
 def init_model_and_processor():
-    models_dict = {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}
-    model_name = models_dict[MODEL_LANGUAGE]
+    model_name = MODELS_DICT[MODEL_LANGUAGE]
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
     processor = WhisperProcessor.from_pretrained(model_name)
@@ -61,6 +63,8 @@ def del_file(filename: str) -> bool:
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
+
+
 """
 Loads the audio file, converts stereo to mono if necessary, resamples to 16000 Hz if needed, 
 and processes it with the Whisper processor.
