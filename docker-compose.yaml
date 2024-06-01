@@ -7,50 +7,57 @@ services:
       - "5000:4000"
     environment:
       MODEL_LANGUAGE: en
-      GOOGLE_API_KEY: key
+      GOOGLE_API_KEY:
       UPLOAD_FOLDER: /app/uploads
       MODELS_DICT: >
-        {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}
+        {"en": "/whisper-small", "he": "/whisper-hebrew"}
 
     volumes:
       - ./uploads1:/app/uploads
-
+      - /home/st111/whisper-small:/whisper-small
+      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
   whisper-en-2:
     image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
       - "5001:4000"
     environment:
       MODEL_LANGUAGE: en
+      GOOGLE_API_KEY:
+      UPLOAD_FOLDER: /app/uploads
+      MODELS_DICT: >
+        {"en": "/whisper-small", "he": "/whisper-hebrew"}
+    volumes:
+      - ./uploads2:/app/uploads
+      - /home/st111/whisper-small:/whisper-small
+      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+  whisper-he-1:
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+    ports:
+      - "5002:4000"
+    environment:
+      MODEL_LANGUAGE: he
       GOOGLE_API_KEY: key
       UPLOAD_FOLDER: /app/uploads
       MODELS_DICT: >
-        {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}      
+        {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
-      - ./uploads2:/app/uploads
-  # whisper-he-1:
-  #   image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
-  #   ports:
-  #     - "5002:4000"
-  #   environment:
-  #     MODEL_LANGUAGE: he
-  #     GOOGLE_API_KEY: key
-  #     UPLOAD_FOLDER: /app/uploads
-  #    MODELS_DICT: >
-  #      {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}  
-  #   volumes:
-  #     - ./uploads3:/app/uploads
-  # whisper-he-2:
-  #   image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
-  #   ports:
-  #     - "5003:4000"
-  #   environment:
-  #     MODEL_LANGUAGE: he
-  #     GOOGLE_API_KEY: key
-  #     UPLOAD_FOLDER: /app/uploads
-  #    MODELS_DICT: >
-  #      {"en": "openai/whisper-small.en", "he": "ivrit-ai/whisper-large-v2-tuned"}    
-  #   volumes:
-  #     - ./uploads4:/app/uploads
+      - ./uploads3:/app/uploads
+      - /home/st111/whisper-small:/whisper-small
+      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+  whisper-he-2:
+    image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
+    ports:
+      - "5003:4000"
+    environment:
+      MODEL_LANGUAGE: he
+      GOOGLE_API_KEY: key
+      UPLOAD_FOLDER: /app/uploads
+      MODELS_DICT: >
+        {"en": "/whisper-small", "he": "/whisper-hebrew"}
+    volumes:
+      - ./uploads4:/app/uploads
+      - /home/st111/whisper-small:/whisper-small
+      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
   nginx:
     image: nginx:latest
     ports:
@@ -60,5 +67,5 @@ services:
     depends_on:
       - whisper-en-1
       - whisper-en-2
-#      - whisper-he-1
-#      - whisper-he-2
+      - whisper-he-1
+      - whisper-he-2
