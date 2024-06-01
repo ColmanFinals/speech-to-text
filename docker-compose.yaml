@@ -15,7 +15,7 @@ services:
     volumes:
       - ./uploads1:/app/uploads
       - /home/st111/whisper-small:/whisper-small
-      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+      - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
   whisper-en-2:
     image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./uploads2:/app/uploads
       - /home/st111/whisper-small:/whisper-small
-      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+      - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
   whisper-he-1:
     image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
@@ -43,7 +43,7 @@ services:
     volumes:
       - ./uploads3:/app/uploads
       - /home/st111/whisper-small:/whisper-small
-      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+      - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
   whisper-he-2:
     image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
     ports:
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./uploads4:/app/uploads
       - /home/st111/whisper-small:/whisper-small
-      - /home/st111/faster-whisper-v2-d3-e3:/whisper-hebrew
+      - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
   nginx:
     image: nginx:latest
     ports:
