@@ -2,7 +2,7 @@ import json
 
 import gemini_helper
 from flask import Flask, request, jsonify
-from transformers import WhisperProcessor, WhisperForConditionalGeneration
+from transformers import WhisperProcessor, WhisperForConditionalGeneration, AutoModelForSpeechSeq2Seq
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import torch
@@ -24,7 +24,8 @@ MODELS_DICT = json.loads(os.environ["MODELS_DICT"])
 def init_model_and_processor():
     model_name = MODELS_DICT[MODEL_LANGUAGE]
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
-    model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
+    # model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
+    model = AutoModelForSpeechSeq2Seq.from_pretrained(model_name, low_cpu_mem_usage=True, torch_dtype= torch.float16).to(device)
     processor = WhisperProcessor.from_pretrained(model_name)
     return model, processor
 
