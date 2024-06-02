@@ -25,7 +25,7 @@ def init_model_and_processor():
     model_name = MODELS_DICT[MODEL_LANGUAGE]
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     # model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
-    model = AutoModelForSpeechSeq2Seq.from_pretrained(model_name, low_cpu_mem_usage=True, torch_dtype= torch.float16).to(device)
+    model = AutoModelForSpeechSeq2Seq.from_pretrained(model_name, low_cpu_mem_usage=True).to(device)
     processor = WhisperProcessor.from_pretrained(model_name)
     return model, processor
 
