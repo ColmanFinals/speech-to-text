@@ -5,3 +5,4 @@ torch
 torchaudio
 soundfile
 google-generativeai
+accelerate
