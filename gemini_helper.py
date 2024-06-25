@@ -5,10 +5,12 @@ import os
 GOOGLE_API_KEY= os.environ["GOOGLE_API_KEY"]
 SYSTEM_INSTRUCTIONS= f"""
 Given a sentence, return a single action word (for example: "start," "stop," "repeat") that the sentence implies.
-The output is the action only. without any additional information.
+The output is the action only. without any additional information 
 The output should be one of the following actions:
 1. {SUPPORTED_COMMANDS}
-2. false for any other case where the output doesnt describe one of the words above.
+2. false for any other case where the output doesn't describe one of the words above.
+Output can be only one of the following actions or false in any other case. This also means that output will always be in English.
+Be aware of cases where the word you get can be close during speaking to one of the actions, and was translated wrongly from speech to text- therefore will be recognized as an action.
 *Examples:*
 
 1. *Sentence:* Begin the process.
@@ -34,6 +36,16 @@ The output should be one of the following actions:
 
 8. *Sentence:* mkelvnldr
    *Result:* false
+   
+9. *Sentence:* stump // can be a mistake during translation from speech to text, and sounds similar to start.
+   *Result:* start 
+
+10. *Sentence:* בצלגללםכם
+    *Result:* false
+    
+11. *Sentence:* Lo siento
+    *Result:* false
+
 """
 
 GEMINI_MODEL="gemini-1.5-flash-latest"
