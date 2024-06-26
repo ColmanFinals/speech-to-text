@@ -47,7 +47,7 @@ GEMINI_MODEL="gemini-1.5-flash-latest"
 def init_gemini_custom_prompt():
     genai.configure(api_key=GOOGLE_API_KEY)
     model = genai.GenerativeModel(
-        generation_config=genai.types.GenerationConfig(top_k=1, temprature=0, max_output_tokens=10),
+        generation_config=genai.types.GenerationConfig(top_k=1, temperature=0, max_output_tokens=10),
         model_name=GEMINI_MODEL,
         system_instruction=[SYSTEM_INSTRUCTIONS],
     )
