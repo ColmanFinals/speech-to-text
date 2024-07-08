@@ -2,7 +2,7 @@ import json
 
 import gemini_helper
 from flask import Flask, request, jsonify
-from transformers import WhisperProcessor, WhisperForConditionalGeneration, AutoModelForSpeechSeq2Seq
+from faster_whisper import WhisperModel
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import torch
@@ -24,10 +24,8 @@ MODELS_DICT = json.loads(os.environ["MODELS_DICT"])
 def init_model_and_processor():
     model_name = MODELS_DICT[MODEL_LANGUAGE]
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
-    # model = WhisperForConditionalGeneration.from_pretrained(model_name).to(device)
-    model = AutoModelForSpeechSeq2Seq.from_pretrained(model_name, low_cpu_mem_usage=True).to(device)
-    processor = WhisperProcessor.from_pretrained(model_name)
-    return model, processor
+    model = WhisperModel(model_size, device=device, compute_type="float16")
+    return model
 
 
 def allowed_file(filename):
@@ -70,32 +68,36 @@ def del_file(filename: str) -> bool:
 Loads the audio file, converts stereo to mono if necessary, resamples to 16000 Hz if needed, 
 and processes it with the Whisper processor.
 """
+def load_and_process_audio(model, filepath):
+    segments, info = model.transcribe(filepath, beam_size=5)
+    print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
+    full_transcription = " ".join([segment.text for segment in segments])
+    return full_transcription
+
+# def load_and_process_audio(processor, filepath):
+#     audio_input, sr = torchaudio.load(filepath, format='wav')
+#     # Convert stereo to mono by averaging the channels if necessary
+#     if audio_input.shape[0] > 1:
+#         audio_input = torch.mean(audio_input, dim=0, keepdim=True)
+#     # Check and resample the audio if necessary
+#     if sr != 16000:
+#         resampler = T.Resample(orig_freq=sr, new_freq=16000)
+#         audio_input = resampler(audio_input.squeeze())
+#     audio_input = audio_input.squeeze().squeeze()
+#     input_features = processor(audio_input, sampling_rate=16000, return_tensors="pt").input_features
+#     return input_features
 
 
-def load_and_process_audio(processor, filepath):
-    audio_input, sr = torchaudio.load(filepath, format='wav')
-    # Convert stereo to mono by averaging the channels if necessary
-    if audio_input.shape[0] > 1:
-        audio_input = torch.mean(audio_input, dim=0, keepdim=True)
-    # Check and resample the audio if necessary
-    if sr != 16000:
-        resampler = T.Resample(orig_freq=sr, new_freq=16000)
-        audio_input = resampler(audio_input.squeeze())
-    audio_input = audio_input.squeeze().squeeze()
-    input_features = processor(audio_input, sampling_rate=16000, return_tensors="pt").input_features
-    return input_features
+# """
+# Uses the model to generate the transcription from the input features.
+# """
 
 
-"""
-Uses the model to generate the transcription from the input features.
-"""
-
-
-def generate_transcription(processor, model, input_features):
-    with torch.no_grad():
-        predicted_ids = model.generate(input_features)
-    transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
-    return transcription
+# def generate_transcription(processor, model, input_features):
+#     with torch.no_grad():
+#         predicted_ids = model.generate(input_features)
+#     transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+#     return transcription
 
 
 """
@@ -115,7 +117,6 @@ def find_commands(sanitized_transcription):
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
     model = app.config['MODEL']
-    processor = app.config['PROCESSOR']
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     file = request.files['file']
@@ -123,8 +124,7 @@ def transcribe_audio():
         return jsonify({'error': 'No selected file'}), 400
     if file and allowed_file(file.filename):
         filepath = save_file(file)
-        input_features = load_and_process_audio(processor, filepath)
-        transcription = generate_transcription(processor, model, input_features)
+        transcription = load_and_process_audio(model, filepath)
         sanitized_transcription = sanitize_transcription(transcription)
         found_commands = find_commands(sanitized_transcription)
         if not found_commands:
@@ -140,7 +140,6 @@ def transcribe_audio():
 
 
 if __name__ == '__main__':
-    app_model, app_processor = init_model_and_processor()
+    app_model = init_model_and_processor()
     app.config['MODEL'] = app_model
-    app.config['PROCESSOR'] = app_processor
     app.run(debug=True, port=4000, host='0.0.0.0')
