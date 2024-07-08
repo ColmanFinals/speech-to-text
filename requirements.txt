@@ -1,5 +1,5 @@
 flask
-transformers
+faster-whisper
 werkzeug
 torch
 torchaudio
