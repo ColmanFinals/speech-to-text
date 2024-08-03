@@ -8,6 +8,7 @@ services:
     environment:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY:
+      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
 
@@ -20,6 +21,7 @@ services:
     ports:
       - "5001:4000"
     environment:
+      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY:
       MODELS_DICT: >
@@ -33,6 +35,7 @@ services:
     ports:
       - "5002:4000"
     environment:
+      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODEL_LANGUAGE: he
       GOOGLE_API_KEY:
       MODELS_DICT: >
@@ -41,19 +44,6 @@ services:
       - ./uploads3:/app/uploads
       - /home/st111/whisper-small:/whisper-small
       - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
-  # whisper-he-2:
-  #   image: ghcr.io/colmanfinals/colmanfinals/speech-to-text:latest
-  #   ports:
-  #     - "5003:4000"
-  #   environment:
-  #     MODEL_LANGUAGE: he
-  #     GOOGLE_API_KEY: key
-  #     MODELS_DICT: >
-  #       {"en": "/whisper-small", "he": "/whisper-hebrew"}
-  #   volumes:
-  #     - ./uploads4:/app/uploads
-  #     - /home/st111/whisper-small:/whisper-small
-  #     - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
   nginx:
     image: nginx:latest
     ports:
@@ -64,4 +54,3 @@ services:
       - whisper-en-1
       - whisper-en-2
       - whisper-he-1
-      # - whisper-he-2

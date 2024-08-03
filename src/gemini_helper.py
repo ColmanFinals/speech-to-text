@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import os
 
-SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"]
+SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"].split(',')
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 SYSTEM_INSTRUCTIONS = f"""
 Given a user's input, classify their intent, to one of the following commands: {SUPPORTED_COMMANDS} if possible else false. 
