@@ -94,3 +94,6 @@ class SpeechToText:
         input_features = self._load_and_process_audio(file_path)
         transcription = self._generate_transcription(input_features)
         return transcription
+
+
+speech_to_text = SpeechToText()
