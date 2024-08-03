@@ -1,0 +1,8 @@
+.gitignore
+blabla.wav
+docker-compose.yaml
+Dockerfile
+quickstart_colab.ipynb
+.github/
+tests/
+venv/

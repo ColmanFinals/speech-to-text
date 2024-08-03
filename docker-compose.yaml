@@ -8,7 +8,6 @@ services:
     environment:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY:
-      UPLOAD_FOLDER: /app/uploads
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
 
@@ -23,7 +22,6 @@ services:
     environment:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY:
-      UPLOAD_FOLDER: /app/uploads
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
@@ -36,8 +34,7 @@ services:
       - "5002:4000"
     environment:
       MODEL_LANGUAGE: he
-      GOOGLE_API_KEY: key
-      UPLOAD_FOLDER: /app/uploads
+      GOOGLE_API_KEY:
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
@@ -51,14 +48,13 @@ services:
   #   environment:
   #     MODEL_LANGUAGE: he
   #     GOOGLE_API_KEY: key
-  #     UPLOAD_FOLDER: /app/uploads
   #     MODELS_DICT: >
   #       {"en": "/whisper-small", "he": "/whisper-hebrew"}
   #   volumes:
   #     - ./uploads4:/app/uploads
   #     - /home/st111/whisper-small:/whisper-small
   #     - /home/st111/whisper-large-v2-tuned:/whisper-hebrew
-  # nginx:
+  nginx:
     image: nginx:latest
     ports:
       - "4000:80"
