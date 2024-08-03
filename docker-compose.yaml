@@ -8,6 +8,8 @@ services:
     environment:
       MODEL_LANGUAGE: en
       GOOGLE_API_KEY:
+      PYTHONPATH: /usr/src/app/src
+      GROQ_API_KEY:
       SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
@@ -23,7 +25,9 @@ services:
     environment:
       SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODEL_LANGUAGE: en
+      PYTHONPATH: /usr/src/app/src
       GOOGLE_API_KEY:
+      GROQ_API_KEY:
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
@@ -37,6 +41,8 @@ services:
     environment:
       SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
       MODEL_LANGUAGE: he
+      GROQ_API_KEY:
+      PYTHONPATH: /usr/src/app/src
       GOOGLE_API_KEY:
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}

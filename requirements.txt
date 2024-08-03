@@ -15,3 +15,4 @@ ffmpeg~=1.4
 uvicorn~=0.30.5
 pydantic_settings
 pytest~=7.4.0
+python-multipart

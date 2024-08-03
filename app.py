@@ -7,9 +7,9 @@ from groq import RateLimitError
 from src.gemini_helper import check_for_video_action
 from src.file_manager import file_manager
 from src.guide_tube import guide_tube
-from transcribe import speech_to_text
+from src.transcribe import speech_to_text
 
-ALLOWED_EXTENSIONS = os.environ["ALLOWED_EXTENSIONS"]
+ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
 SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"]
 app = FastAPI()
 app.add_middleware(TrustedHostMiddleware)
