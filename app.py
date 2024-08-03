@@ -24,7 +24,11 @@ app.add_middleware(
 
 
 def find_commands(transcription_text: str) -> list[str]:
-    found_commands = [command for command in SUPPORTED_COMMANDS if command in transcription_text.lower()]
+    transcription_text = transcription_text.lower()  # Convert the transcription to lowercase for case-insensitive matching
+    found_commands = []
+    for command in SUPPORTED_COMMANDS:
+        if re.search(r'\b' + re.escape(command) + r'\b', transcription_text):
+            found_commands.append(command)
     return found_commands
 
 
@@ -57,11 +61,13 @@ async def create_upload_file(file: UploadFile, response: Response) -> str:
         transcription_text: str = speech_to_text.transcribe_with_whisper(file_path)
     transcription_text = sanitize_transcription(transcription_text)
     found_commands: list[str] = find_commands(transcription_text)
+    print(f"found commands: {found_commands}")
     if not found_commands:
         gemini_recognized_action = check_for_video_action(transcription_text)
+        print(f"Sending to gemini recognition. found: {gemini_recognized_action}")
         if gemini_recognized_action != "false":
             found_commands.append(gemini_recognized_action.split()[0])
-
+    print(f"Sending {found_commands[0]}")
     return found_commands[0]
 
 
