@@ -1,9 +1,9 @@
 import google.generativeai as genai
-from run_whisper import SUPPORTED_COMMANDS
 import os
 
-GOOGLE_API_KEY= os.environ["GOOGLE_API_KEY"]
-SYSTEM_INSTRUCTIONS= f"""
+SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"]
+GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
+SYSTEM_INSTRUCTIONS = f"""
 Given a user's input, classify their intent, to one of the following commands: {SUPPORTED_COMMANDS} if possible else false. 
 Answer a single command or false if the command is not comprehendable.
 
@@ -41,8 +41,8 @@ Text: Lo siento
 Answer: false 
 """
 
+GEMINI_MODEL = "gemini-1.5-flash-latest"
 
-GEMINI_MODEL="gemini-1.5-flash-latest"
 
 def init_gemini_custom_prompt():
     genai.configure(api_key=GOOGLE_API_KEY)
@@ -53,10 +53,13 @@ def init_gemini_custom_prompt():
     )
     return model
 
+
 """
 Check if the user speech includes a request for one of the supported actions.
 @:returns the wanted action of "false" if no action was requested.
 """
+
+
 def check_for_video_action(user_speech: str) -> str:
     model = init_gemini_custom_prompt()
     response = model.generate_content([user_speech])
