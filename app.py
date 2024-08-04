@@ -10,7 +10,7 @@ from src.guide_tube import guide_tube
 from src.transcribe import speech_to_text
 
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
-SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"]
+SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"].split(',')
 app = FastAPI()
 app.add_middleware(TrustedHostMiddleware)
 app.add_middleware(
@@ -66,8 +66,9 @@ async def create_upload_file(file: UploadFile, response: Response) -> str:
         gemini_recognized_action = check_for_video_action(transcription_text)
         print(f"Sending to gemini recognition. found: {gemini_recognized_action}")
         if gemini_recognized_action != "false":
-            found_commands.append(gemini_recognized_action.split()[0])
-    print(f"Sending {found_commands[0]}")
+            return gemini_recognized_action
+        else:
+            return "false"
     return found_commands[0]
 
 
