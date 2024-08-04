@@ -3,13 +3,13 @@ from google.api_core.exceptions import ResourceExhausted
 import os
 
 SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"].split(',')
-GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
+# GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 SYSTEM_INSTRUCTIONS = f"""
 Given a user's input, classify their intent, to one of the following commands: {SUPPORTED_COMMANDS} if possible else false. 
 Answer a single command or false if the command is not comprehensible.
 
 Text: Begin the process.
-Answer: start
+Answer: play
 
 Text: Cease all operations.
 Answer: stop
@@ -21,7 +21,7 @@ Text: Let's go again.
 Answer: repeat
 
 Text: Initiate the program.
-Answer: start
+Answer: play
 
 Text: Put everything on hold.
 Answer: stop
@@ -32,8 +32,8 @@ Answer: false
 Text: mkelvnldr
 Answer: false
 
-Text: stump // can be a mistake during translation from speech to text, and sounds similar to start.
-Answer: start 
+Text: slay // can be a mistake during translation from speech to text, and sounds similar to play.
+Answer: play 
 
 Text: בצלגללםכם
 Answer: false

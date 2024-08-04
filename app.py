@@ -11,6 +11,7 @@ from src.transcribe import speech_to_text
 
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
 SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"].split(',')
+
 app = FastAPI()
 app.add_middleware(TrustedHostMiddleware)
 app.add_middleware(
@@ -24,10 +25,10 @@ app.add_middleware(
 
 
 def find_commands(transcription_text: str) -> list[str]:
-    transcription_text = transcription_text.lower()  # Convert the transcription to lowercase for case-insensitive matching
     found_commands = []
     for command in SUPPORTED_COMMANDS:
-        if re.search(r'\b' + re.escape(command) + r'\b', transcription_text):
+        command = command.strip().lower()
+        if re.search(r'\b' + re.escape(command) + r'\b', transcription_text, re.IGNORECASE):
             found_commands.append(command)
     return found_commands
 
@@ -38,7 +39,9 @@ Removes punctuation from the transcription.
 
 
 def sanitize_transcription(transcription):
-    return re.sub(r'[^\w\s]', '', transcription)
+    sanitized = re.sub(r'[^\w\s]', '', transcription)
+    print(f"Sanitized transcription: {sanitized}")
+    return sanitized.lower()
 
 
 def allowed_file(file_path: str) -> bool:
@@ -58,7 +61,8 @@ async def create_upload_file(file: UploadFile, response: Response) -> str:
         print(f"{transcription_text.lower() = }")
     except RateLimitError:
         print("Rate limit exception raised, using local whisper")
-        transcription_text: str = speech_to_text.transcribe_with_whisper(file_path)
+    transcription_text: str = speech_to_text.transcribe_with_whisper(file_path)
+    print(f"{transcription_text.lower() = }")
     transcription_text = sanitize_transcription(transcription_text)
     found_commands: list[str] = find_commands(transcription_text)
     print(f"found commands: {found_commands}")
@@ -69,6 +73,8 @@ async def create_upload_file(file: UploadFile, response: Response) -> str:
             return gemini_recognized_action
         else:
             return "false"
+    if len(found_commands) == 0:
+        return "false"
     return found_commands[0]
 
 
