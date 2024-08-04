@@ -61,7 +61,7 @@ async def create_upload_file(file: UploadFile, response: Response) -> str:
         print(f"{transcription_text.lower() = }")
     except RateLimitError:
         print("Rate limit exception raised, using local whisper")
-    transcription_text: str = speech_to_text.transcribe_with_whisper(file_path)
+        transcription_text: str = speech_to_text.transcribe_with_whisper(file_path)
     print(f"{transcription_text.lower() = }")
     transcription_text = sanitize_transcription(transcription_text)
     found_commands: list[str] = find_commands(transcription_text)
