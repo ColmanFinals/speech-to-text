@@ -62,6 +62,7 @@ class SpeechToText:
         except RateLimitError:
             raise RateLimitError
 
+
     """
     Loads the audio file, converts stereo to mono if necessary, resamples to 16000 Hz if needed, 
     and processes it with the Whisper processor.
