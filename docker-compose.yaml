@@ -53,7 +53,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "4000:443"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /home/st111/cert/server.crt:/etc/nginx/server.crt
