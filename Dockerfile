@@ -8,6 +8,7 @@ COPY . .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install ffmpeg -y
 
 # Run whisper.py when the container launches
 CMD ["python3.11", "app.py"]
