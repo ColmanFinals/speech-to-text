@@ -7,10 +7,11 @@ services:
       - "5000:4000"
     environment:
       MODEL_LANGUAGE: en
-      GOOGLE_API_KEY:
       PYTHONPATH: /usr/src/app/src
-      GROQ_API_KEY:
-      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
+      GOOGLE_API_KEY: 
+      PYTHONPATH: /usr/src/app/src
+      GROQ_API_KEY: 
+      SUPPORTED_COMMANDS: play, stop, next, previous, mute, unmute, volume up, volume down, hey guidetube
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
 
@@ -23,11 +24,11 @@ services:
     ports:
       - "5001:4000"
     environment:
-      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
+      SUPPORTED_COMMANDS: play, stop, next, previous, mute, unmute, volume up, volume down, hey guidetube
       MODEL_LANGUAGE: en
       PYTHONPATH: /usr/src/app/src
-      GOOGLE_API_KEY:
-      GROQ_API_KEY:
+      GOOGLE_API_KEY: 
+      GROQ_API_KEY: 
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
@@ -39,11 +40,12 @@ services:
     ports:
       - "5002:4000"
     environment:
-      SUPPORTED_COMMANDS: play, pause, stop, next, previous, mute, unmute, volume up, volume down, fullscreen, exit fullscreen, loop, exit
+      SUPPORTED_COMMANDS: play, stop, next, previous, mute, unmute, volume up, volume down, hey guidetube
       MODEL_LANGUAGE: he
-      GROQ_API_KEY:
       PYTHONPATH: /usr/src/app/src
-      GOOGLE_API_KEY:
+      GROQ_API_KEY: 
+      PYTHONPATH: /usr/src/app/src
+      GOOGLE_API_KEY: 
       MODELS_DICT: >
         {"en": "/whisper-small", "he": "/whisper-hebrew"}
     volumes:
