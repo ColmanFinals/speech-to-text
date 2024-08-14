@@ -26,8 +26,14 @@ Answer: play
 Text: Put everything on hold.
 Answer: stop
 
-Text: Hi
-Answer: false
+Text: Hi guys
+Answer: hey guide tube
+
+Text: Hi guide you
+Answer: hey guide tube
+
+Text: Hey you
+Answer: hey guide tube
 
 Text: mkelvnldr
 Answer: false
