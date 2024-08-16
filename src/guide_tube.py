@@ -16,10 +16,8 @@ class GuideTube:
 
     def _is_text_has_hi_guide_tube(self, transcription_text: str) -> bool:
         lower_transcription = transcription_text.lower()
-        return (("hi" in lower_transcription or "hey" in lower_transcription) 
-                and "tube" in lower_transcription) or (
-            ("guide" in lower_transcription or "guy" in lower_transcription)
-            and "tube" in lower_transcription)
+        return ("hi" in lower_transcription or "hey" in lower_transcription or "tube" 
+                in lower_transcription or "guide" in lower_transcription or "guy" in lower_transcription)
 
     def _update_guide_tube_file(self, transcription_text: str) -> bool:
 
