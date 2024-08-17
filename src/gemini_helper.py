@@ -6,7 +6,9 @@ SUPPORTED_COMMANDS = os.environ["SUPPORTED_COMMANDS"].split(',')
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 SYSTEM_INSTRUCTIONS = f"""
 Given a user's input, classify their intent, to one of the following commands: {SUPPORTED_COMMANDS} if possible else false. 
-Answer a single command or false if the command is not comprehensible.
+if the input is not comprehensible or doesn't match any command, return false.
+Your answer is a single command from the list or false.
+For example, when the input is provided (Text field), your response should be (Answer field):
 
 Text: Begin the process.
 Answer: play
